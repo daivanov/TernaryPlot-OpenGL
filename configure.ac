@@ -1,0 +1,11 @@
+AC_INIT(ternaryplot-opengl, 0.1, daniil.ivanov@gmail.com)
+AC_CONFIG_SRCDIR(src/main.c)
+
+AM_INIT_AUTOMAKE
+
+AC_PROG_CC
+
+AC_CHECK_LIB([glut], [glutInit])
+
+AC_CONFIG_FILES(Makefile src/Makefile)
+AC_OUTPUT
