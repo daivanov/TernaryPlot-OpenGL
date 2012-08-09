@@ -18,30 +18,63 @@
  */
 
 #include <stdio.h>
+#include <math.h>
 #include <GL/glut.h>
+
+static double sin60;
+static double cos60 = 0.5;
+
+void drawField(double width, double height)
+{
+    double size = width / 1.2;
+    double vborder = (height - size * sin60) / 2;
+    double x1 = 0.1 * size;
+    double x2 = 1.1 * size;
+    double x3 = 0.6 * size;
+    double y1 = vborder;
+    double y2 = vborder;
+    double y3 = vborder + size * sin60;
+
+    glColor3f(0.0, 0.0, 0.0);
+
+    glBegin(GL_LINE_LOOP);
+    glVertex2f(0.1 * size, vborder);
+    glVertex2f(1.1 * size, vborder);
+    glVertex2f(0.6 * size, vborder + size * sin60);
+    glEnd();
+
+    for (double frac = 0.1; frac <= 0.5; frac += 0.1) {
+        glBegin(GL_LINE_LOOP);
+        glVertex2f(frac * x1 + (1 - frac) * x2, frac * y1 + (1 - frac) * y2);
+        glVertex2f((1-frac) * x2 + frac * x3, (1-frac) * y2 + frac * y3);
+        glVertex2f(frac * x3 + (1-frac) * x1, frac * y3 + (1-frac) * y1);
+        glVertex2f((1-frac) * x1 + frac * x2, (1-frac) * y1 + frac * y2);
+        glVertex2f(frac * x2 + (1-frac) * x3, frac * y2 + (1-frac) * y3);
+        glVertex2f((1-frac) * x3 + frac * x1, (1-frac) * y3 + frac * y1);
+        glEnd();
+    }
+}
 
 void display(void)
 {
     glClear(GL_COLOR_BUFFER_BIT);
-    glColor3f(0.5, 0.5, 0.5);
-    glBegin(GL_POLYGON);
-    glVertex3f(5.0, 8.0, 0.0);
-    glVertex3f(1.5, 2.0, 0.0);
-    glVertex3f(8.5, 2.0, 0.0);
-    glEnd();
+
+    drawField(10.0, 10.0);
+
     glFlush();
 }
 
 int main(int argc, char **argv)
 {
+    sin60 = sqrt(3)/2;
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DEPTH);
 
     glutInitWindowPosition(100,100);
     glutInitWindowSize(300,300);
-    glutCreateWindow ("triangle");
+    glutCreateWindow ("Triangle");
 
-    glClearColor(0.0, 0.0, 0.0, 0.0);
+    glClearColor(1.0, 1.0, 1.0, 0.0);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glOrtho(0.0, 10.0, 0.0, 10.0, -1.0, 1.0);
