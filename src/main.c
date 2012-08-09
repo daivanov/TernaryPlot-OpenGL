@@ -36,6 +36,7 @@ void drawField(double width, double height)
     double y3 = vborder + size * sin60;
 
     glColor3f(0.0, 0.0, 0.0);
+    glLineWidth(3.0);
 
     glBegin(GL_LINE_LOOP);
     glVertex2f(0.1 * size, vborder);
@@ -43,6 +44,7 @@ void drawField(double width, double height)
     glVertex2f(0.6 * size, vborder + size * sin60);
     glEnd();
 
+    glLineWidth(1.0);
     for (double frac = 0.1; frac <= 0.5; frac += 0.1) {
         glBegin(GL_LINE_LOOP);
         glVertex2f(frac * x1 + (1 - frac) * x2, frac * y1 + (1 - frac) * y2);
