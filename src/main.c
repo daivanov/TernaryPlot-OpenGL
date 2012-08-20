@@ -66,6 +66,19 @@ void display(void)
     glFlush();
 }
 
+void reshape(GLint newWidth, GLint newHeight)
+{
+    glViewport(0, 0, newWidth, newHeight);
+    glLoadIdentity();
+    if (newWidth > newHeight) {
+        GLdouble dx = 10 * ((GLdouble)newWidth / newHeight - 1.0) / 2;
+        glOrtho(-dx, 10.0 + dx, 0.0, 10.0, -1.0, 1.0);
+    } else {
+        GLdouble dy = 10 * ((GLdouble)newHeight / newWidth - 1.0) / 2;
+        glOrtho(0.0, 10.0, -dy, 10.0 + dy, -1.0, 1.0);
+    }
+}
+
 int main(int argc, char **argv)
 {
     sin60 = sqrt(3)/2;
@@ -82,6 +95,7 @@ int main(int argc, char **argv)
     glOrtho(0.0, 10.0, 0.0, 10.0, -1.0, 1.0);
 
     glutDisplayFunc(display);
+    glutReshapeFunc(reshape);
     glutMainLoop();
 
     return 0;
