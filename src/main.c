@@ -89,6 +89,10 @@ int main(int argc, char **argv)
     glutInitWindowSize(300,300);
     glutCreateWindow ("Triangle");
 
+    glEnable(GL_LINE_SMOOTH);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
     glClearColor(1.0, 1.0, 1.0, 0.0);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
