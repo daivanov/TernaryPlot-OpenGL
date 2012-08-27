@@ -21,31 +21,42 @@
 #include <math.h>
 #include <GL/glut.h>
 
-static double sin60;
-static double cos60 = 0.5;
+static GLdouble sin60;
+static GLdouble cos60 = 0.5;
 
-void drawField(double width, double height)
+void drawEllipse(GLdouble x, GLdouble y, GLdouble rx, GLdouble ry)
 {
-    double size = width / 1.2;
-    double vborder = (height - size * sin60) / 2;
-    double x1 = 0.1 * size;
-    double x2 = 1.1 * size;
-    double x3 = 0.6 * size;
-    double y1 = vborder;
-    double y2 = vborder;
-    double y3 = vborder + size * sin60;
+    glBegin(GL_LINE_LOOP);
+    for (GLdouble angle = .0; angle < 2 * M_PI; angle += M_PI / 10) {
+        glVertex2f(x + rx * cos(angle), y + ry * sin(angle));
+    }
+    glEnd();
+}
+
+void drawField(GLdouble width, GLdouble height)
+{
+    GLdouble size = width / 1.2;
+    GLdouble vborder = (height - size * sin60) / 2;
+    GLdouble x1 = 0.1 * size;
+    GLdouble x2 = 1.1 * size;
+    GLdouble x3 = 0.6 * size;
+    GLdouble y1 = vborder;
+    GLdouble y2 = vborder;
+    GLdouble y3 = vborder + size * sin60;
 
     glColor3f(0.0, 0.0, 0.0);
     glLineWidth(3.0);
 
     glBegin(GL_LINE_LOOP);
-    glVertex2f(0.1 * size, vborder);
-    glVertex2f(1.1 * size, vborder);
-    glVertex2f(0.6 * size, vborder + size * sin60);
+    glVertex2f(x1, y1);
+    glVertex2f(x2, y2);
+    glVertex2f(x3, y3);
     glEnd();
 
+    drawEllipse((x1 + x2 + x3) / 3, (y1 + y2 + y3) / 3, .05, .05);
+
     glLineWidth(1.0);
-    for (double frac = 0.1; frac <= 0.5; frac += 0.1) {
+    for (GLdouble frac = 0.1; frac <= 0.5; frac += 0.1) {
         glBegin(GL_LINE_LOOP);
         glVertex2f(frac * x1 + (1 - frac) * x2, frac * y1 + (1 - frac) * y2);
         glVertex2f((1-frac) * x2 + frac * x3, (1-frac) * y2 + frac * y3);
